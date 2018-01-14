@@ -1,0 +1,47 @@
+<h1>Account Settings</h1>
+
+<hr />
+
+<h2>Edit your account details</h2>
+
+<div class="formWrapper">
+  <form id="accountEdit1" action="/api/users" method="PUT">
+    <input type="hidden" name="_method" value="PUT"/>
+    <div class="formError"></div>
+    <div class="formSuccess">Your Changes Have Been Saved</div>
+    <input class="hiddenPhoneNumberInput"  type="hidden" name="phone" />
+    <div class="inputWrapper">
+      <div class="inputLabel">Phone Number</div>
+      <input class="disabled displayPhoneInput" type="text" name="displayPhone" disabled />
+    </div>
+    <div class="inputWrapper">
+      <div class="inputLabel">First Name</div>
+      <input class="firstNameInput" type="text" name="firstName" placeholder="John" />
+    </div>
+    <div class="inputWrapper">
+      <div class="inputLabel">Last Name</div>
+      <input class="lastNameInput" type="text" name="lastName" placeholder="Smith" />
+    </div>
+    <div class="inputWrapper ctaWrapper">
+      <button type="submit" class="cta green">Save Changes</button>
+    </div>
+  </form>
+</div>
+
+<hr />
+<h2>Change Your Password</h2>
+<div class="formWrapper">
+  <form id="accountEdit2" action="/api/users" method="PUT">
+    <input type="hidden" name="_method" value="PUT"/>
+    <div class="formError"></div>
+    <div class="formSuccess">Your New Password Has Been Saved</div>
+    <input class="hiddenPhoneNumberInput" type="hidden" name="phone" />
+    <div class="inputWrapper">
+      <div class="inputLabel">Choose a New Password</div>
+      <input type="password" name="password" placeholder="Make it a good one!" />
+    </div>
+    <div class="inputWrapper ctaWrapper">
+      <button type="submit" class="cta green">Save Password</button>
+    </div>
+  </form>
+</div>
