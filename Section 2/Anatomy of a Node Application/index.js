@@ -33,12 +33,16 @@ app.printAJoke = function(){
 
     // Pick a random number between 1 and the number of jokes
     var randomNumber = mathLib.getRandomNumber(1,numberOfJokes);
+    if (randomNumber) {
 
-    // Get the joke at that position in the array (minus one)
-    var selectedJoke = allJokes[randomNumber - 1];
+      // Get the joke at that position in the array (minus one)
+      var selectedJoke = allJokes[randomNumber - 1];
 
-    // Send the joke to the console
-    console.log(selectedJoke);
+      // Send the joke to the console
+      console.log(selectedJoke);
+    } else {
+      console.log("No jokes in the file");
+    }
 };
 
 
