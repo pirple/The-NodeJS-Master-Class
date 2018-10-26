@@ -12,6 +12,24 @@ _app.tests = {};
 // Dependencies
 _app.tests.unit = require('./unit');
 
+
+/*
+ * PR for final Exam
+ * getFunctionParams Helper
+ * Allows to improve the way test are defined
+ * by making the done() callback only necessary for async tests.
+ */
+
+const STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+const ARGUMENT_NAMES = /([^\s,]+)/g;
+
+_app.getFunctionParams = function (func) {
+  const fnStr = func.toString().replace(STRIP_COMMENTS, '');
+  let result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
+  if (result === null) result = [];
+  return result;
+};
+
 // Count all the tests
 _app.countTests = function(){
   var counter = 0;
@@ -42,17 +60,35 @@ _app.runTests = function(){
             (function(){
               var tmpTestName = testName;
               var testValue = subTests[testName];
+
+              /*
+               * PR for final Exam
+               * Callback function "done" extracted because it can be called in 2 ways
+               * As a callback for async test and as a direct call for sync tests
+               */
+              function done() {
+                // If it calls back without throwing, then it succeeded, so log it in green
+                console.log('\x1b[32m%s\x1b[0m',tmpTestName);
+                counter++;
+                successes++;
+                if(counter == limit){
+                  _app.produceTestReport(limit,successes,errors);
+                }
+              }
               // Call the test
               try{
-                testValue(function(){
-                  // If it calls back without throwing, then it succeeded, so log it in green
-                  console.log('\x1b[32m%s\x1b[0m',tmpTestName);
-                  counter++;
-                  successes++;
-                  if(counter == limit){
-                    _app.produceTestReport(limit,successes,errors);
-                  }
-                });
+
+                /*
+                 * PR for final Exam
+                 * 2 ways to call the testValue function
+                 */
+                const doesTestNeedCallback = _app.getFunctionParams(testValue);
+                if (doesTestNeedCallback) {
+                  testValue(done);
+                } else {
+                  testValue();
+                  done();
+                }
               } catch(e){
                 // If it throws, then it failed, so capture the error thrown and log it in red
                 errors.push({
