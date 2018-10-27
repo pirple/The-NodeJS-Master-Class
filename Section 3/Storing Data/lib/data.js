@@ -88,33 +88,14 @@ lib.update = function(dir,file,data,callback){
 
 // Delete a file
 lib.delete = function(dir,file,callback){
-
-  // Open the file for writing
-  fs.unlink(lib.baseDir+dir+'/'+file+'.json', 'r+', function(err, fileDescriptor){
-    if(!err && fileDescriptor){
-      // Convert data to string
-      var stringData = JSON.stringify(data);
-
-      // Write to file and close it
-      fs.writeFile(fileDescriptor, stringData,function(err){
-        if(!err){
-          fs.close(fileDescriptor,function(err){
-            if(!err){
-              callback(false);
-            } else {
-              callback('Error closing existing file');
-            }
-          });
-        } else {
-          callback('Error writing to existing file');
-        }
-      });
+  // Unlink the file
+  fs.unlink(lib.baseDir+dir+'/'+file+'.json',function(err){
+    if(!err){
+      callback(false);
     } else {
-      callback('Could not open file for updating, it may not exist yet');
+      callback('Error deleting file');
     }
   });
-
-
 };
 
 // Export the module
